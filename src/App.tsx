@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { FC } from 'react'
+import logo from './logo.svg'
+import './App.css'
 
 const App: FC = function () {
   return (
@@ -8,11 +8,7 @@ const App: FC = function () {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit
-          {' '}
-          <code>src/App.tsx</code>
-          {' '}
-          and save to reload.
+          Edit <code>src/App.tsx</code> and save to reload.
         </p>
         <a
           className="App-link"
@@ -24,7 +20,7 @@ const App: FC = function () {
         </a>
       </header>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
