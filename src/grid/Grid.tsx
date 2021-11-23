@@ -22,7 +22,7 @@ interface ColumnRowsProps {
  * Represents a column
  */
 const ColumnRows: FC<ColumnRowsProps> = ({ rows }) => (
-  <div>
+  <div className="flex flex-col gap-y-1">
     {rows.map((rowCell, index) => (
       // eslint-disable-next-line react/no-array-index-key
       <Cell key={index} player={rowCell} />
@@ -48,7 +48,7 @@ export const Grid: FC<GridProps> = ({ grid: columns }) => {
   }
 
   return (
-    <div>
+    <div className="flex flex-row gap-x-1">
       {columns.map((rows, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <ColumnRows rows={rows} key={index} />
