@@ -1,0 +1,17 @@
+.Cell.container {
+  background: #0d3b66;
+}
+
+.Cell .disc {
+  border-radius: 50%;
+  /* must be the same as the page background to have an illusion of transparency */
+  background: #e8e9f3;
+}
+
+.Cell .disc.player-1 {
+  background: #ef8080;
+}
+
+.Cell .disc.player-2 {
+  background: #febe48;
+}
