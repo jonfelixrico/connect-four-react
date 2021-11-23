@@ -62,7 +62,14 @@
     "react-hooks/exhaustive-deps": "warn",
 
     // i personally prefer named exports
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+
+    "react/function-component-definition": [
+      "warn",
+      {
+        "namedComponents": "arrow-function"
+      }
+    ]
   },
   "settings": {
     // prevents errors like: Unable to resolve path to module ‘./App’
