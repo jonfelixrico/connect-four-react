@@ -57,19 +57,20 @@ export interface GridProps {
    */
   grid: Array<Array<Player>>
   onClick: (colIndex: number, rowIndex: number) => void
+  className?: string
 }
 
 /**
  * Represents a connect 4 grid that consists of seven columns
  * with six rows each.
  */
-export const Grid: FC<GridProps> = ({ grid: columns, onClick }) => {
+export const Grid: FC<GridProps> = ({ grid: columns, onClick, className }) => {
   if (columns.length !== 7 || !columns.every((rows) => rows.length === 6)) {
     throw new Error('Invalid grid dimensions!')
   }
 
   return (
-    <div className="flex flex-row gap-x-1">
+    <div className={classNames('flex flex-row gap-x-1', className)}>
       {columns.map((rows, colIndex) => (
         <ColumnRows
           rows={rows}
