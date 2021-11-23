@@ -40,6 +40,9 @@
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
 
+    // no longer necessary as of react 17.x
+    "react/react-in-jsx-scope": "off",
+
     // --- rules for enforcing good code ---
 
     // forces us to always define fn return type
