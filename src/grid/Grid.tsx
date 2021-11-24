@@ -10,11 +10,11 @@ interface CellProps {
 const Cell: FC<CellProps> = ({ player }) => {
   return (
     <div
-      className="flex-1 flex flex-col justify-center
-        items-center Cell container"
+      className="flex flex-col justify-center
+        items-center Cell"
     >
       <div
-        className={classNames('h-3/4 w-3/4 disk', {
+        className={classNames('disk rounded-full', {
           'player-1': player === Player.PLAYER_1,
           'player-2': player === Player.PLAYER_2,
         })}
@@ -26,14 +26,18 @@ const Cell: FC<CellProps> = ({ player }) => {
 interface ColumnRowsProps {
   rows: Array<Player>
   onClick: () => void
+  className?: string
 }
 
 /**
  * Represents a column
  */
-const ColumnRows: FC<ColumnRowsProps> = ({ rows, onClick }) => (
+const ColumnRows: FC<ColumnRowsProps> = ({ rows, onClick, className }) => (
   // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-  <div className="flex-1 flex flex-col" onClick={onClick}>
+  <div
+    className={classNames('flex-1 flex flex-col', className)}
+    onClick={onClick}
+  >
     {rows
       .map((row, rowIndex) => (
         // eslint-disable-next-line react/no-array-index-key
@@ -42,6 +46,10 @@ const ColumnRows: FC<ColumnRowsProps> = ({ rows, onClick }) => (
       .reverse()}
   </div>
 )
+
+ColumnRows.defaultProps = {
+  className: '',
+}
 
 export interface GridProps {
   /**
@@ -69,13 +77,17 @@ export const Grid: FC<GridProps> = ({
   }
 
   return (
-    <div className={classNames('flex flex-row', className)} style={style}>
+    <div className={classNames('Grid flex flex-row', className)} style={style}>
       {columns.map((rows, colIndex) => (
         <ColumnRows
           rows={rows}
           // eslint-disable-next-line react/no-array-index-key
           key={colIndex}
           onClick={() => onClick(colIndex)}
+          className={classNames('py-5', {
+            'pl-5': colIndex === 0,
+            'pr-5': colIndex === columns.length - 1,
+          })}
         />
       ))}
     </div>

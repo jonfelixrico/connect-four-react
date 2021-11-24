@@ -40,11 +40,7 @@ export const App: FC = () => {
 
   return (
     <div className="h-screen w-screen flex justify-center items-center">
-      <Grid
-        grid={grid}
-        onClick={onClick}
-        style={{ width: '500px', height: '500px' }}
-      />
+      <Grid grid={grid} onClick={onClick} />
     </div>
   )
 }
