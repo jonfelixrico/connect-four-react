@@ -2,18 +2,19 @@
 import classNames from 'classnames'
 import { CSSProperties, FC } from 'react'
 import { Player } from './player.enum'
+import './Grid.css'
 
 interface CellProps {
   player: Player | null
 }
 const Cell: FC<CellProps> = ({ player }) => {
   return (
-    <div className="flex justify-center items-center Cell container">
+    <div
+      className="flex-1 flex flex-col justify-center
+        items-center Cell container"
+    >
       <div
-        role="button"
-        aria-label="cell"
-        tabIndex={0}
-        className={classNames('h-50 w-50 disk', {
+        className={classNames('h-3/4 w-3/4 disk', {
           'player-1': player === Player.PLAYER_1,
           'player-2': player === Player.PLAYER_2,
         })}
@@ -32,11 +33,13 @@ interface ColumnRowsProps {
  */
 const ColumnRows: FC<ColumnRowsProps> = ({ rows, onClick }) => (
   // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-  <div className="flex flex-col gap-y-1" onClick={onClick}>
-    {rows.map((row, rowIndex) => (
-      // eslint-disable-next-line react/no-array-index-key
-      <Cell key={rowIndex} player={row} />
-    ))}
+  <div className="flex-1 flex flex-col" onClick={onClick}>
+    {rows
+      .map((row, rowIndex) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <Cell key={rowIndex} player={row} />
+      ))
+      .reverse()}
   </div>
 )
 
@@ -66,10 +69,7 @@ export const Grid: FC<GridProps> = ({
   }
 
   return (
-    <div
-      className={classNames('flex flex-row gap-x-1', className)}
-      style={style}
-    >
+    <div className={classNames('flex flex-row', className)} style={style}>
       {columns.map((rows, colIndex) => (
         <ColumnRows
           rows={rows}
