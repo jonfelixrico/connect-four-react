@@ -36,11 +36,12 @@ interface ColumnRowsProps {
  * Represents a column
  */
 const ColumnRows: FC<ColumnRowsProps> = ({ rows, onClick, className }) => (
-  <div>
+  <div className="flex-1 relative" onClick={onClick}>
     <div
-      className={classNames('flex-1 flex flex-col', className)}
-      onClick={onClick}
-    >
+      className="absolute h-full w-full
+    bg-white opacity-0 hover:opacity-10"
+    />
+    <div className={classNames('flex flex-col pointer-events-none', className)}>
       {rows
         .map((row, rowIndex) => <Cell key={rowIndex} player={row} />)
         .reverse()}
@@ -78,16 +79,16 @@ export const Grid: FC<GridProps> = ({
   }
 
   return (
-    <div className={classNames('Grid flex flex-row', className)} style={style}>
+    <div
+      className={classNames('Grid flex flex-row px-5', className)}
+      style={style}
+    >
       {columns.map((rows, colIndex) => (
         <ColumnRows
           rows={rows}
           key={colIndex}
           onClick={() => onClick(colIndex)}
-          className={classNames('py-5', {
-            'pl-5': colIndex === 0,
-            'pr-5': colIndex === columns.length - 1,
-          })}
+          className="py-5"
         />
       ))}
     </div>
