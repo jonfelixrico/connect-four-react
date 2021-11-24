@@ -47,6 +47,9 @@
 
     "no-console": "off",
 
+    // just use object default values
+    "react/require-default-props": [0],
+
     // --- rules for enforcing good code ---
 
     // forces us to always define fn return type
