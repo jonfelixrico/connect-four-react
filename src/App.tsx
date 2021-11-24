@@ -64,7 +64,12 @@ export const App: FC = () => {
   return (
     <div className="h-screen w-screen">
       <div>
-        <Grid grid={grid} onClick={onClick} />
+        <Grid
+          grid={grid}
+          onClick={onClick}
+          className="px-5"
+          columnClassName="py-5"
+        />
         <div
           style={{ transform: 'scale(0.1)' }}
           className="pointer-events-none flex flex-row"
