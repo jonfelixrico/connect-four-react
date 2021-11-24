@@ -5,22 +5,11 @@ import { Player } from './player.enum'
 
 interface CellProps {
   player: Player | null
-  onClick: () => void
 }
-const Cell: FC<CellProps> = ({ player, onClick: origOnClick }) => {
-  const isVacant = player ?? true
-  const onClick = (): void => {
-    if (isVacant) {
-      return
-    }
-
-    origOnClick()
-  }
-
+const Cell: FC<CellProps> = ({ player }) => {
   return (
     <div className="flex justify-center items-center Cell container">
       <div
-        onClick={onClick}
         role="button"
         aria-label="cell"
         tabIndex={0}
@@ -35,17 +24,18 @@ const Cell: FC<CellProps> = ({ player, onClick: origOnClick }) => {
 
 interface ColumnRowsProps {
   rows: Array<Player>
-  onClick: (rowIndex: number) => void
+  onClick: () => void
 }
 
 /**
  * Represents a column
  */
 const ColumnRows: FC<ColumnRowsProps> = ({ rows, onClick }) => (
-  <div className="flex flex-col gap-y-1">
+  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+  <div className="flex flex-col gap-y-1" onClick={onClick}>
     {rows.map((row, rowIndex) => (
       // eslint-disable-next-line react/no-array-index-key
-      <Cell key={rowIndex} player={row} onClick={() => onClick(rowIndex)} />
+      <Cell key={rowIndex} player={row} />
     ))}
   </div>
 )
@@ -56,7 +46,7 @@ export interface GridProps {
    * Inner array: rows
    */
   grid: Array<Array<Player>>
-  onClick: (colIndex: number, rowIndex: number) => void
+  onClick: (colIndex: number) => void
   className?: string
 }
 
@@ -76,7 +66,7 @@ export const Grid: FC<GridProps> = ({ grid: columns, onClick, className }) => {
           rows={rows}
           // eslint-disable-next-line react/no-array-index-key
           key={colIndex}
-          onClick={(rowIndex) => onClick(colIndex, rowIndex)}
+          onClick={() => onClick(colIndex)}
         />
       ))}
     </div>
