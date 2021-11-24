@@ -1,4 +1,7 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */ // enable this later
+
 import classNames from 'classnames'
 import { CSSProperties, FC } from 'react'
 import { Player } from './player.enum'
@@ -33,17 +36,15 @@ interface ColumnRowsProps {
  * Represents a column
  */
 const ColumnRows: FC<ColumnRowsProps> = ({ rows, onClick, className }) => (
-  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-  <div
-    className={classNames('flex-1 flex flex-col', className)}
-    onClick={onClick}
-  >
-    {rows
-      .map((row, rowIndex) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <Cell key={rowIndex} player={row} />
-      ))
-      .reverse()}
+  <div>
+    <div
+      className={classNames('flex-1 flex flex-col', className)}
+      onClick={onClick}
+    >
+      {rows
+        .map((row, rowIndex) => <Cell key={rowIndex} player={row} />)
+        .reverse()}
+    </div>
   </div>
 )
 
@@ -81,7 +82,6 @@ export const Grid: FC<GridProps> = ({
       {columns.map((rows, colIndex) => (
         <ColumnRows
           rows={rows}
-          // eslint-disable-next-line react/no-array-index-key
           key={colIndex}
           onClick={() => onClick(colIndex)}
           className={classNames('py-5', {
