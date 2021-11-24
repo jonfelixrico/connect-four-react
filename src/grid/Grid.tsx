@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */ // enable this later
 import classNames from 'classnames'
-import { FC } from 'react'
+import { CSSProperties, FC } from 'react'
 import { Player } from './player.enum'
 
 interface CellProps {
@@ -48,19 +48,28 @@ export interface GridProps {
   grid: Array<Array<Player>>
   onClick: (colIndex: number) => void
   className?: string
+  style?: CSSProperties
 }
 
 /**
  * Represents a connect 4 grid that consists of seven columns
  * with six rows each.
  */
-export const Grid: FC<GridProps> = ({ grid: columns, onClick, className }) => {
+export const Grid: FC<GridProps> = ({
+  grid: columns,
+  onClick,
+  className,
+  style,
+}) => {
   if (columns.length !== 7 || !columns.every((rows) => rows.length === 6)) {
     throw new Error('Invalid grid dimensions!')
   }
 
   return (
-    <div className={classNames('flex flex-row gap-x-1', className)}>
+    <div
+      className={classNames('flex flex-row gap-x-1', className)}
+      style={style}
+    >
       {columns.map((rows, colIndex) => (
         <ColumnRows
           rows={rows}
