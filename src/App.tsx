@@ -18,10 +18,16 @@ export const App: FC = () => {
         const column = clone[colIdx]
 
         const firstNullIdx = column.findIndex((rowCell) => rowCell === null)
+
+        if (firstNullIdx === -1) {
+          console.warn(`No more slots in col ${colIdx}.`)
+          return gridState
+        }
+
         column[firstNullIdx] = player
 
         console.debug(
-          `Player ${player} has placed a token on (${colIdx}), ${firstNullIdx}`
+          `Player ${player} has placed a token on (${colIdx}, ${firstNullIdx}).`
         )
 
         return clone
