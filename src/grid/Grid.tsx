@@ -49,17 +49,13 @@ const ColumnRows: FC<ColumnRowsProps> = ({ rows, onClick, className }) => (
   </div>
 )
 
-ColumnRows.defaultProps = {
-  className: '',
-}
-
 export interface GridProps {
   /**
    * Outer array: columns
    * Inner array: rows
    */
   grid: Array<Array<Player>>
-  onClick: (colIndex: number) => void
+  onClick?: (colIndex: number) => void
   className?: string
   style?: CSSProperties
 }
@@ -70,7 +66,8 @@ export interface GridProps {
  */
 export const Grid: FC<GridProps> = ({
   grid: columns,
-  onClick,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onClick = () => {},
   className,
   style,
 }) => {
