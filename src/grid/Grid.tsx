@@ -9,12 +9,14 @@ import './Grid.css'
 
 interface CellProps {
   player: Player | null
+  cellSize?: number
 }
-const Cell: FC<CellProps> = ({ player }) => {
+const Cell: FC<CellProps> = ({ player, cellSize }) => {
   return (
     <div
       className="flex flex-col justify-center
         items-center Cell"
+      style={{ width: `${cellSize}px`, height: `${cellSize}px` }}
     >
       <div
         className={classNames('disk rounded-full', {
@@ -30,20 +32,28 @@ interface ColumnRowsProps {
   rows: Array<Player>
   onClick: () => void
   className?: string
+  cellSize?: number
 }
 
 /**
  * Represents a column
  */
-const ColumnRows: FC<ColumnRowsProps> = ({ rows, onClick, className }) => (
-  <div className="flex-1 relative" onClick={onClick}>
+const ColumnRows: FC<ColumnRowsProps> = ({
+  rows,
+  onClick,
+  className,
+  cellSize,
+}) => (
+  <div className="relative" onClick={onClick}>
     <div
       className="absolute h-full w-full
     bg-white opacity-0 hover:opacity-10"
     />
     <div className={classNames('flex flex-col pointer-events-none', className)}>
       {rows
-        .map((row, rowIndex) => <Cell key={rowIndex} player={row} />)
+        .map((row, rowIndex) => (
+          <Cell cellSize={cellSize} key={rowIndex} player={row} />
+        ))
         .reverse()}
     </div>
   </div>
@@ -58,6 +68,7 @@ export interface GridProps {
   onClick?: (colIndex: number) => void
   className?: string
   style?: CSSProperties
+  cellSize?: number
 }
 
 /**
@@ -70,6 +81,7 @@ export const Grid: FC<GridProps> = ({
   onClick = () => {},
   className,
   style,
+  cellSize = 100,
 }) => {
   if (columns.length !== 7 || !columns.every((rows) => rows.length === 6)) {
     throw new Error('Invalid grid dimensions!')
@@ -77,17 +89,23 @@ export const Grid: FC<GridProps> = ({
 
   return (
     <div
-      className={classNames('Grid flex flex-row px-5', className)}
-      style={style}
+      className={classNames('Grid px-5 ', className)}
+      style={{ ...style, display: 'inline-block' }}
     >
-      {columns.map((rows, colIndex) => (
-        <ColumnRows
-          rows={rows}
-          key={colIndex}
-          onClick={() => onClick(colIndex)}
-          className="py-5"
-        />
-      ))}
+      <div
+        className="flex flex-row justify-center"
+        style={{ width: `${7 * cellSize}px` }}
+      >
+        {columns.map((rows, colIndex) => (
+          <ColumnRows
+            rows={rows}
+            key={colIndex}
+            onClick={() => onClick(colIndex)}
+            cellSize={cellSize}
+            className="py-5"
+          />
+        ))}
+      </div>
     </div>
   )
 }
