@@ -1,0 +1,23 @@
+.Cell {
+  width: 100px;
+  height: 100px;
+}
+
+.Cell .disk {
+  /* must be the same as the page background to have an illusion of transparency */
+  background: #e8e9f3;
+  width: 90%;
+  height: 90%;
+}
+
+.Cell .disk.player-1 {
+  background: #ef8080;
+}
+
+.Cell .disk.player-2 {
+  background: #febe48;
+}
+
+.Grid {
+  background: #0d3b66;
+}
