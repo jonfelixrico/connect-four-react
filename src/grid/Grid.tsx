@@ -66,7 +66,17 @@ export interface GridProps {
    */
   grid: Array<Array<Player>>
   onClick?: (colIndex: number) => void
+
+  /**
+   * Classes to be applied to the grid
+   */
   className?: string
+
+  /**
+   * Classes to be applied to each individual column
+   */
+  columnClassName?: string
+
   style?: CSSProperties
   cellSize?: number
 }
@@ -82,6 +92,7 @@ export const Grid: FC<GridProps> = ({
   className,
   style,
   cellSize = 100,
+  columnClassName,
 }) => {
   if (columns.length !== 7 || !columns.every((rows) => rows.length === 6)) {
     throw new Error('Invalid grid dimensions!')
@@ -89,7 +100,7 @@ export const Grid: FC<GridProps> = ({
 
   return (
     <div
-      className={classNames('Grid px-5 ', className)}
+      className={classNames('Grid', className)}
       style={{ ...style, display: 'inline-block' }}
     >
       <div
@@ -102,7 +113,7 @@ export const Grid: FC<GridProps> = ({
             key={colIndex}
             onClick={() => onClick(colIndex)}
             cellSize={cellSize}
-            className="py-5"
+            className={columnClassName}
           />
         ))}
       </div>
