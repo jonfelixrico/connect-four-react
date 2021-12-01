@@ -4,7 +4,7 @@
 
 import classNames from 'classnames'
 import { CSSProperties, FC } from 'react'
-import { Player } from '@enums/player.enum'
+import { Player } from '@typings/player.enum'
 import './Grid.css'
 
 interface CellProps {
