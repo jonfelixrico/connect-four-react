@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import { CSSProperties, FC } from 'react'
 import { Player } from '@typings/player.enum'
 import './Grid.css'
+import { GridMatrix } from '@typings/grid.types'
 
 interface CellProps {
   player: Player | null
@@ -64,7 +65,7 @@ export interface GridProps {
    * Outer array: columns
    * Inner array: rows
    */
-  grid: Array<Array<Player>>
+  grid: GridMatrix
   onClick?: (colIndex: number) => void
 
   /**
