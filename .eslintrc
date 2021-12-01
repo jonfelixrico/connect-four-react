@@ -74,7 +74,10 @@
       {
         "namedComponents": "arrow-function"
       }
-    ]
+    ],
+
+    // readability > performance for this small project
+    "no-restricted-syntax": [0]
   },
   "settings": {
     // prevents errors like: Unable to resolve path to module ‘./App’
