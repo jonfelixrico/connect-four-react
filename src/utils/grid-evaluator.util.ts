@@ -82,12 +82,21 @@ function diagonalHelper(
   for (
     let yIdx = highestPoint;
     /*
-     * from the highet point, keep going down until there are only 4 cells left
+     * From the highest point, keep going down until there are only 4 cells left
      * (inclusive of yIdx) which is the minimum for victory
      */
     yIdx >= 3;
     yIdx -= 1
   ) {
+    /*
+     * Create a diagonal from (`xIdx`, `yIdx`) to (`xIdx` + `directionDelta`, `yIdx` - 3).
+     *
+     * If `direction` is left, then `directionDelta` is -3 (to the left),
+     * else then +3 (to the right).
+     *
+     * `yIdx` is at a static - 3 because we always start from top (`highestPoint`) and sweep
+     * to the bottom.
+     */
     const diagonalLine = [
       grid[xIdx][yIdx], // the diagonal starts at the specified xIdx
       grid[xIdx + directionDelta][yIdx - 1], // 1 step down and 1 step towards the direction
