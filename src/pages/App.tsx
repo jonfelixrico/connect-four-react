@@ -3,7 +3,6 @@ import { FC, useCallback, useEffect, useState } from 'react'
 import { Grid } from '@components/grid/Grid'
 import { Player } from '@typings/player.enum'
 import { GridMatrix } from '@typings/grid.types'
-import { evaluateGrid } from '@utils/grid-evaluator.util'
 
 interface GameState {
   grid: GridMatrix
@@ -54,7 +53,6 @@ export const App: FC = () => {
   )
 
   useEffect(() => {
-    console.log(evaluateGrid(gameState.grid))
     setHistory((historyState) => [
       ...historyState,
       {
