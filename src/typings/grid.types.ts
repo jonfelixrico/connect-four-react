@@ -13,7 +13,7 @@ export type MatrixColumn = [
 
 /**
  * A 6 (rows) by 7 (columns) grid.
- * The outer array contains the _columns_, the inner array contains.
+ * The outer array contains the columns, and the inner array contains the rows (or cells).
  */
 export type GridMatrix = [
   MatrixColumn,
