@@ -82,8 +82,8 @@ function diagonalHelper(
   for (
     let yIdx = highestPoint;
     /*
-     * keep going down until there are only 4 cells left (inclusive of yIdx) which is the
-     * minimum for victory
+     * from the highet point, keep going down until there are only 4 cells left
+     * (inclusive of yIdx) which is the minimum for victory
      */
     yIdx >= 3;
     yIdx -= 1
@@ -108,8 +108,8 @@ function evaluateTopToRight(
   grid: GridMatrix,
   highestPoint: number
 ): Player | null {
-  for (let colIdx = 0; colIdx <= grid.length - 4; colIdx += 1) {
-    const winner = diagonalHelper(grid, highestPoint, colIdx, 'right')
+  for (let xIdx = 0; xIdx <= grid.length - 4; xIdx += 1) {
+    const winner = diagonalHelper(grid, highestPoint, xIdx, 'right')
     if (winner) {
       return winner
     }
