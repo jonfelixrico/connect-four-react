@@ -32,7 +32,24 @@ describe('Grid evaluator', () => {
     expect(evaluateGrid(grid)).toBe(Player.PLAYER_1)
   })
 
-  it.todo('detects a vertical win')
+  it('detects a vertical win', () => {
+    const grid = generateGrid()
+
+    /*
+     * -------
+     * -------
+     * x------
+     * x------
+     * x-o----
+     * xoo----
+     */
+    // eslint-disable-next-line no-multi-assign
+    grid[0][0] = grid[0][1] = grid[0][2] = grid[0][3] = Player.PLAYER_1
+    // eslint-disable-next-line no-multi-assign
+    grid[1][0] = grid[2][0] = grid[2][1] = Player.PLAYER_2
+
+    expect(evaluateGrid(grid)).toBe(Player.PLAYER_1)
+  })
 
   it.todo('detects a diagonal TL-to-BR win')
 
