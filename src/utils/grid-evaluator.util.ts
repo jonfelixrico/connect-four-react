@@ -117,7 +117,19 @@ function evaluateTopToRight(
   grid: GridMatrix,
   highestPoint: number
 ): Player | null {
-  for (let xIdx = 0; xIdx <= grid.length - 4; xIdx += 1) {
+  for (
+    /*
+     * Keep going to the right as long as there are 3 cells to the right of `xIdx` which
+     * makes it 4 cells if `xIdx` is included.
+     */
+    let xIdx = 0;
+    xIdx <= grid.length - 4;
+    xIdx += 1
+  ) {
+    /*
+     * Evaluates a diagonal that starts at `xIdx` and goes 3 cells to the
+     * bottom right.
+     */
     const winner = diagonalHelper(grid, highestPoint, xIdx, 'right')
     if (winner) {
       return winner
@@ -132,12 +144,19 @@ function evaluateTopToLeft(
   highestPoint: number
 ): Player | null {
   for (
-    // start from the 4th column because we want to evaluate the diagonal line from top to left
-    let colIdx = 3;
-    colIdx < grid.length;
-    colIdx += 1
+    /*
+     * We want to start at index 3 because we want to have at least 4 cells to the left
+     * of `xIdx` at all times. Keep going to the right until the last x position.
+     */
+    let xIdx = 3;
+    xIdx < grid.length;
+    xIdx += 1
   ) {
-    const winner = diagonalHelper(grid, highestPoint, colIdx, 'left')
+    /*
+     * Evaluates a diagonal that starts at `xIdx` and goes 3 cells to the
+     * bottom left.
+     */
+    const winner = diagonalHelper(grid, highestPoint, xIdx, 'left')
     if (winner) {
       return winner
     }
