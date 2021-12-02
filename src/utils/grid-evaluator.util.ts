@@ -9,7 +9,7 @@ function find4Consecutive(arr: Array<Player>): Player | null {
     if (!player || arrMember !== player) {
       // this is the first iteration or a different symbol from the prev iteration was encountered
       player = arrMember
-      streak = 0
+      streak = 1
     } else if (player === arrMember) {
       streak += 1
     }
