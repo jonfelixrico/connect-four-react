@@ -46,7 +46,10 @@ function findHighestPoint(grid: GridMatrix): number {
   return Math.max(...highestPointPerColumn)
 }
 
-function evaluateRows(grid: GridMatrix, lastIndex: number): Player | null {
+function evaluateHorizontal(
+  grid: GridMatrix,
+  lastIndex: number
+): Player | null {
   for (let i = 0; i <= lastIndex; i += 1) {
     const row = grid.map((column) => column[i])
     const winner = find4Consecutive(row)
@@ -59,7 +62,7 @@ function evaluateRows(grid: GridMatrix, lastIndex: number): Player | null {
   return null
 }
 
-function evaluateColumns(grid: GridMatrix, lastIndex: number): Player | null {
+function evaluateVertical(grid: GridMatrix, lastIndex: number): Player | null {
   for (const column of grid) {
     const trimmed = column.slice(0, lastIndex + 1) // had to +1 because end is exclusive
 
@@ -173,9 +176,9 @@ export function evaluateGrid(grid: GridMatrix): Player | null {
     return null
   }
 
-  const winnerByRows = evaluateRows(grid, highestPoint)
-  if (winnerByRows) {
-    return winnerByRows
+  const winnerByHorizontal = evaluateHorizontal(grid, highestPoint)
+  if (winnerByHorizontal) {
+    return winnerByHorizontal
   }
 
   if (highestPoint < 3) {
@@ -183,9 +186,9 @@ export function evaluateGrid(grid: GridMatrix): Player | null {
     return null
   }
 
-  const winnerByColumns = evaluateColumns(grid, highestPoint)
-  if (winnerByColumns) {
-    return winnerByColumns
+  const winnerByVertical = evaluateVertical(grid, highestPoint)
+  if (winnerByVertical) {
+    return winnerByVertical
   }
 
   // diagonal evaluators
