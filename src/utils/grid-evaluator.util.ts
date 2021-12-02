@@ -72,23 +72,46 @@ function evaluateColumns(grid: GridMatrix, lastIndex: number): Player | null {
   return null
 }
 
+function diagonalHelper(
+  grid: GridMatrix,
+  highestPoint: number,
+  xIdx: number,
+  direction: 'left' | 'right'
+): Player | null {
+  const directionDelta = direction === 'left' ? -1 : 1
+  for (
+    let yIdx = highestPoint;
+    /*
+     * keep going down until there are only 4 cells left (inclusive of yIdx) which is the
+     * minimum for victory
+     */
+    yIdx >= 3;
+    yIdx -= 1
+  ) {
+    const diagonalLine = [
+      grid[xIdx][yIdx], // the diagonal starts at the specified xIdx
+      grid[xIdx + directionDelta][yIdx - 1], // 1 step down and 1 step towards the direction
+      grid[xIdx + directionDelta * 2][yIdx - 2], // 2 steps down and 2 steps towards the direction
+      grid[xIdx + directionDelta * 3][yIdx - 3], // ... and so on
+    ]
+
+    const winner = find4Consecutive(diagonalLine)
+    if (winner) {
+      return winner
+    }
+  }
+
+  return null
+}
+
 function evaluateTopToRight(
   grid: GridMatrix,
   highestPoint: number
 ): Player | null {
   for (let colIdx = 0; colIdx <= grid.length - 4; colIdx += 1) {
-    for (let rowIdx = highestPoint; rowIdx >= 3; rowIdx -= 1) {
-      const diagonalTopToRight = [
-        grid[colIdx][rowIdx],
-        grid[colIdx - 1][rowIdx + 1],
-        grid[colIdx - 2][rowIdx + 2],
-        grid[colIdx - 3][rowIdx + 3],
-      ]
-
-      const winner = find4Consecutive(diagonalTopToRight)
-      if (winner) {
-        return winner
-      }
+    const winner = diagonalHelper(grid, highestPoint, colIdx, 'right')
+    if (winner) {
+      return winner
     }
   }
 
@@ -105,19 +128,9 @@ function evaluateTopToLeft(
     colIdx < grid.length;
     colIdx += 1
   ) {
-    // Keep descending as long as there are at 3 "cells" below `rowIdx`
-    for (let rowIdx = highestPoint; rowIdx >= 3; rowIdx -= 1) {
-      const diagonalTopToRight = [
-        grid[colIdx][rowIdx],
-        grid[colIdx - 1][rowIdx - 1],
-        grid[colIdx - 2][rowIdx - 2],
-        grid[colIdx - 3][rowIdx - 3],
-      ]
-
-      const winner = find4Consecutive(diagonalTopToRight)
-      if (winner) {
-        return winner
-      }
+    const winner = diagonalHelper(grid, highestPoint, colIdx, 'left')
+    if (winner) {
+      return winner
     }
   }
 
