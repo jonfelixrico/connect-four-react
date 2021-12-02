@@ -1,11 +1,11 @@
 import { cloneDeep, uniqueId } from 'lodash'
 import { FC, useCallback, useEffect, useState } from 'react'
 import { Grid } from '@components/grid/Grid'
-import { Player } from '@enums/player.enum'
+import { Player } from '@typings/player.enum'
+import { GridMatrix } from '@typings/grid.types'
 
-type Grid = Array<Array<Player>>
 interface GameState {
-  grid: Grid
+  grid: GridMatrix
   player: Player
 }
 
