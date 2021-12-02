@@ -76,14 +76,52 @@ function evaluateTopToRight(
   grid: GridMatrix,
   highestPoint: number
 ): Player | null {
-  throw new Error('noop')
+  for (let colIdx = 0; colIdx <= grid.length - 4; colIdx += 1) {
+    for (let rowIdx = highestPoint; rowIdx >= 3; rowIdx -= 1) {
+      const diagonalTopToRight = [
+        grid[colIdx][rowIdx],
+        grid[colIdx - 1][rowIdx + 1],
+        grid[colIdx - 2][rowIdx + 2],
+        grid[colIdx - 3][rowIdx + 3],
+      ]
+
+      const winner = find4Consecutive(diagonalTopToRight)
+      if (winner) {
+        return winner
+      }
+    }
+  }
+
+  return null
 }
 
 function evaluateTopToLeft(
   grid: GridMatrix,
   highestPoint: number
 ): Player | null {
-  throw new Error('noop')
+  for (
+    // start from the 4th column because we want to evaluate the diagonal line from top to left
+    let colIdx = 3;
+    colIdx < grid.length;
+    colIdx += 1
+  ) {
+    // Keep descending as long as there are at 3 "cells" below `rowIdx`
+    for (let rowIdx = highestPoint; rowIdx >= 3; rowIdx -= 1) {
+      const diagonalTopToRight = [
+        grid[colIdx][rowIdx],
+        grid[colIdx - 1][rowIdx - 1],
+        grid[colIdx - 2][rowIdx - 2],
+        grid[colIdx - 3][rowIdx - 3],
+      ]
+
+      const winner = find4Consecutive(diagonalTopToRight)
+      if (winner) {
+        return winner
+      }
+    }
+  }
+
+  return null
 }
 
 export function evaluateGrid(grid: GridMatrix): Player | null {
