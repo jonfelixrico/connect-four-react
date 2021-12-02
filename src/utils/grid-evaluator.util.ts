@@ -72,6 +72,20 @@ function evaluateColumns(grid: GridMatrix, lastIndex: number): Player | null {
   return null
 }
 
+function evaluateTopToRight(
+  grid: GridMatrix,
+  highestPoint: number
+): Player | null {
+  throw new Error('noop')
+}
+
+function evaluateTopToLeft(
+  grid: GridMatrix,
+  highestPoint: number
+): Player | null {
+  throw new Error('noop')
+}
+
 export function evaluateGrid(grid: GridMatrix): Player | null {
   const highestPoint = findHighestPoint(grid)
 
@@ -95,7 +109,17 @@ export function evaluateGrid(grid: GridMatrix): Player | null {
     return winnerByColumns
   }
 
-  // TODO evaluate diagonals
+  // diagonal evaluators
+
+  const winnerByTopToLeft = evaluateTopToLeft(grid, highestPoint)
+  if (winnerByTopToLeft) {
+    return winnerByTopToLeft
+  }
+
+  const winnerByTopToRight = evaluateTopToRight(grid, highestPoint)
+  if (winnerByTopToRight) {
+    return winnerByTopToRight
+  }
 
   return null
 }
