@@ -3,6 +3,7 @@ import { FC, useCallback, useEffect, useState } from 'react'
 import { Grid } from '@components/grid/Grid'
 import { Player } from '@typings/player.enum'
 import { GridMatrix } from '@typings/grid.types'
+import { generateGrid } from '@utils/grid.utils'
 
 interface GameState {
   grid: GridMatrix
@@ -11,7 +12,7 @@ interface GameState {
 
 const INIT_GAME_STATE: GameState = {
   player: Player.PLAYER_1,
-  grid: new Array(7).fill(null).map(() => new Array(6).fill(null)),
+  grid: generateGrid(),
 }
 
 interface HistoryEntry extends GameState {
