@@ -1,4 +1,4 @@
-# Tic Tac Toe
+# Connect Four
 
 This is my project for learning React Typescript. I have a few goals for this project. Each task will have a list that highlights the new things that I try to learn or add in the project.
 
@@ -10,7 +10,7 @@ This is my project for learning React Typescript. I have a few goals for this pr
 - [ ] Integrate a componeny library
   - Maybe Material UI? Semantic UI? Ant?
 - [ ] Animations!
-- [ ] Tic tac toe AI via Minmax with AB pruning
+- [ ] Connect four AI via Minmax with AB pruning
 - [ ] Multiplayer
   - Nest.js with SocketIO
 
