@@ -52,7 +52,7 @@ function evaluateHorizontal(
 ): Player | null {
   for (let i = 0; i <= lastIndex; i += 1) {
     const row = grid.map((column) => column[i])
-    const winner = find4Consecutive(row)
+    const winner = find4Consecutive(row as Array<Player>)
 
     if (winner !== null) {
       return winner
@@ -66,7 +66,7 @@ function evaluateVertical(grid: GridMatrix, lastIndex: number): Player | null {
   for (const column of grid) {
     const trimmed = column.slice(0, lastIndex + 1) // had to +1 because end is exclusive
 
-    const winnerOfColumn = find4Consecutive(trimmed)
+    const winnerOfColumn = find4Consecutive(trimmed as Array<Player>)
     if (winnerOfColumn) {
       return winnerOfColumn
     }
@@ -107,7 +107,7 @@ function diagonalHelper(
       grid[xIdx + directionDelta * 3][yIdx - 3], // ... and so on
     ]
 
-    const winner = find4Consecutive(diagonalLine)
+    const winner = find4Consecutive(diagonalLine as Array<Player>)
     if (winner) {
       return winner
     }
