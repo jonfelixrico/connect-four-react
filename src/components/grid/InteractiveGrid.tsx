@@ -17,7 +17,7 @@ export const InteractiveGrid: FC<InteractiveGridProps> = ({
   itemSize,
 }) => {
   return (
-    <div className="px-5" style={{ background: '#0d3b66' }}>
+    <div className="px-5 rounded-lg" style={{ background: '#0d3b66' }}>
       <div className="relative">
         <div className="py-5">
           <Grid grid={grid} colorMapping={colorMapping} itemSize={itemSize} />
