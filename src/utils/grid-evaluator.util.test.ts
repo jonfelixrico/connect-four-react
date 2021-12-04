@@ -51,9 +51,43 @@ describe('Grid evaluator', () => {
     expect(evaluateGrid(grid)).toBe(Player.PLAYER_1)
   })
 
-  it.todo('detects a diagonal TL-to-BR win')
+  it('detects a diagonal TL-to-BR win', () => {
+    const grid = generateGrid()
 
-  it.todo('detects a diagonal TL-to-BL win')
+    /*
+     * -------
+     * -------
+     * x------
+     * ox-----
+     * o-x----
+     * o--x---
+     */
+    // eslint-disable-next-line no-multi-assign
+    grid[0][0] = grid[0][1] = grid[0][2] = Player.PLAYER_2
+    // eslint-disable-next-line no-multi-assign
+    grid[3][0] = grid[2][1] = grid[1][2] = grid[0][3] = Player.PLAYER_1
+
+    expect(evaluateGrid(grid)).toBe(Player.PLAYER_1)
+  })
+
+  it('detects a diagonal TL-to-BL win', () => {
+    const grid = generateGrid()
+
+    /*
+     * -------
+     * -------
+     * ---x---
+     * --x----
+     * -x-----
+     * xooo---
+     */
+    // eslint-disable-next-line no-multi-assign
+    grid[0][0] = grid[1][1] = grid[2][2] = grid[3][3] = Player.PLAYER_1
+    // eslint-disable-next-line no-multi-assign
+    grid[1][0] = grid[2][0] = grid[3][0] = Player.PLAYER_2
+
+    expect(evaluateGrid(grid)).toBe(Player.PLAYER_1)
+  })
 
   it('detects if there is no win', () => {
     const grid = generateGrid() // empty grid
