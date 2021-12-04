@@ -8,7 +8,6 @@ import { History } from '@components/grid/History'
 import { generateGridSnapshots, PlayerMove } from '@utils/history.utils'
 import { useTranslation } from 'react-i18next'
 import { evaluateGrid } from '@utils/grid-evaluator.util'
-import classNames from 'classnames'
 
 interface AuditEntry extends PlayerMove {
   id: string
