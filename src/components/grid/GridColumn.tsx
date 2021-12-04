@@ -46,11 +46,13 @@ export const GridColumn: FC<GridColumnProps> = ({
 }) => {
   return (
     <div className="flex flex-col-reverse self-center">
-      {items.map((color) => (
+      {items.map((color, index) => (
         <ColumnItem
           background={color}
           itemSize={itemSize}
           discSize={discSize}
+          // eslint-disable-next-line react/no-array-index-key
+          key={index}
         />
       ))}
     </div>

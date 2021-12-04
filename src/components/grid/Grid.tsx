@@ -1,7 +1,3 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */ // enable this later
-
 import { FC } from 'react'
 import { Player } from '@typings/player.enum'
 import { GridMatrix } from '@typings/grid.types'
@@ -43,10 +39,12 @@ export const Grid: FC<GridProps> = ({
 }) => {
   return (
     <div className="flex flex-row justify-center">
-      {columns.map((items) => (
+      {columns.map((items, index) => (
         <GridColumn
           itemSize={itemSize}
           items={mapColors(items, colorMapping)}
+          // eslint-disable-next-line react/no-array-index-key
+          key={index}
         />
       ))}
     </div>
