@@ -2,63 +2,25 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */ // enable this later
 
-import classNames from 'classnames'
-import { CSSProperties, FC } from 'react'
+import { FC } from 'react'
 import { Player } from '@typings/player.enum'
-import './Grid.css'
-import { GridMatrix, MatrixColumn } from '@typings/grid.types'
+import { GridMatrix } from '@typings/grid.types'
+import { GridColumn } from './GridColumn'
 
-interface CellProps {
-  player: Player | null
-  cellSize?: number
-}
-const Cell: FC<CellProps> = ({ player, cellSize }) => {
-  return (
-    <div
-      className="flex flex-col justify-center
-        items-center Cell"
-      style={{ width: `${cellSize}px`, height: `${cellSize}px` }}
-    >
-      <div
-        className={classNames('disk rounded-full', {
-          'player-1': player === Player.PLAYER_1,
-          'player-2': player === Player.PLAYER_2,
-        })}
-      />
-    </div>
-  )
+type ColorMapping = Record<Player, string> & {
+  NONE: string
 }
 
-interface ColumnRowsProps {
-  rows: MatrixColumn
-  onClick: () => void
-  className?: string
-  cellSize?: number
+const DEFAULT_MAPPING = {
+  NONE: '#e8e9f3',
+  [Player.PLAYER_1]: '#ef8080',
+  [Player.PLAYER_2]: '#febe48',
 }
 
-/**
- * Represents a column
- */
-const ColumnRows: FC<ColumnRowsProps> = ({
-  rows,
-  onClick,
-  className,
-  cellSize,
-}) => (
-  <div className="relative" onClick={onClick}>
-    <div
-      className="absolute h-full w-full
-    bg-white opacity-0 hover:opacity-10"
-    />
-    <div className={classNames('flex flex-col pointer-events-none', className)}>
-      {rows
-        .map((row, rowIndex) => (
-          <Cell cellSize={cellSize} key={rowIndex} player={row} />
-        ))
-        .reverse()}
-    </div>
-  </div>
-)
+const mapColors = (
+  column: Array<Player | null>,
+  mapping: ColorMapping
+): Array<string> => column.map((item) => mapping[item ?? 'NONE'])
 
 export interface GridProps {
   /**
@@ -66,20 +28,8 @@ export interface GridProps {
    * Inner array: rows
    */
   grid: GridMatrix
-  onClick?: (colIndex: number) => void
-
-  /**
-   * Classes to be applied to the grid
-   */
-  className?: string
-
-  /**
-   * Classes to be applied to each individual column
-   */
-  columnClassName?: string
-
-  style?: CSSProperties
-  cellSize?: number
+  itemSize?: string
+  colorMapping?: ColorMapping
 }
 
 /**
@@ -88,36 +38,17 @@ export interface GridProps {
  */
 export const Grid: FC<GridProps> = ({
   grid: columns,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onClick = () => {},
-  className,
-  style,
-  cellSize = 100,
-  columnClassName,
+  itemSize = '100px',
+  colorMapping = DEFAULT_MAPPING,
 }) => {
-  if (columns.length !== 7 || !columns.every((rows) => rows.length === 6)) {
-    throw new Error('Invalid grid dimensions!')
-  }
-
   return (
-    <div
-      className={classNames('Grid', className)}
-      style={{ ...style, display: 'inline-block' }}
-    >
-      <div
-        className="flex flex-row justify-center"
-        style={{ width: `${7 * cellSize}px` }}
-      >
-        {columns.map((rows, colIndex) => (
-          <ColumnRows
-            rows={rows}
-            key={colIndex}
-            onClick={() => onClick(colIndex)}
-            cellSize={cellSize}
-            className={columnClassName}
-          />
-        ))}
-      </div>
+    <div className="flex flex-row justify-center">
+      {columns.map((items) => (
+        <GridColumn
+          itemSize={itemSize}
+          items={mapColors(items, colorMapping)}
+        />
+      ))}
     </div>
   )
 }

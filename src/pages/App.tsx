@@ -66,21 +66,11 @@ export const App: FC = () => {
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden">
       <div className="flex flex-grow justify-center items-center">
-        <Grid
-          grid={gameState.grid}
-          onClick={onClick}
-          className="px-5"
-          columnClassName="py-5"
-        />
+        <Grid grid={gameState.grid} />
       </div>
       <div className="flex flex-row overflow-auto">
         {history.map((historyEntry) => (
-          <Grid
-            className="p-1 pointer-events-none"
-            cellSize={20}
-            grid={historyEntry.grid}
-            key={historyEntry.id}
-          />
+          <Grid grid={historyEntry.grid} key={historyEntry.id} />
         ))}
       </div>
     </div>

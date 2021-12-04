@@ -1,8 +1,4 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { FC } from 'react'
-
-type ColumnItems = [string, string, string, string, string, string]
 
 interface ColumnItemContainerProps {
   itemSize: string
@@ -24,9 +20,8 @@ const ColumnItem: FC<ColumnItemProps> = ({
         width: itemSize,
         height: itemSize,
       }}
-      className="flex flex-col justify-center items-center"
+      className="flex justify-center items-center"
     >
-      {/* Disc */}
       <div
         className="rounded-full"
         style={{
@@ -39,19 +34,18 @@ const ColumnItem: FC<ColumnItemProps> = ({
   )
 }
 
-interface GridColumnProps extends ColumnItemContainerProps {
-  items: ColumnItems
-  onClick: () => void
+interface GridColumnProps extends Omit<ColumnItemContainerProps, 'discSize'> {
+  items: Array<string>
+  discSize?: string
 }
 
 export const GridColumn: FC<GridColumnProps> = ({
   items,
-  onClick,
   itemSize,
-  discSize,
+  discSize = '90%',
 }) => {
   return (
-    <div onClick={onClick}>
+    <div className="flex flex-col-reverse self-center">
       {items.map((color) => (
         <ColumnItem
           background={color}
