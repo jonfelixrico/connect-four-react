@@ -1,5 +1,6 @@
 import { GridMatrix } from '@typings/grid.types'
 import { Player } from '@typings/player.enum'
+import { findLastIndex } from 'lodash'
 
 function find4Consecutive(arr: Array<Player>): Player | null {
   let player: Player | null = null
@@ -40,7 +41,7 @@ function findHighestPoint(grid: GridMatrix): number {
      * it will be null; so by taking the first null we encounter and subtracting 1, we find the
      * highest point.
      */
-    return column.findIndex((row) => row === null) - 1
+    return findLastIndex(column, (cell) => cell !== null)
   })
 
   return Math.max(...highestPointPerColumn)
