@@ -4,6 +4,7 @@ import { Grid } from '@components/grid/Grid'
 import { Player } from '@typings/player.enum'
 import { GridMatrix } from '@typings/grid.types'
 import { generateGrid } from '@utils/grid.utils'
+import { InteractiveGrid } from '@components/grid/InteractiveGrid'
 
 interface GameState {
   grid: GridMatrix
@@ -66,7 +67,7 @@ export const App: FC = () => {
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden">
       <div className="flex flex-grow justify-center items-center">
-        <Grid grid={gameState.grid} />
+        <InteractiveGrid grid={gameState.grid} onClick={onClick} />
       </div>
       <div className="flex flex-row overflow-auto">
         {history.map((historyEntry) => (
