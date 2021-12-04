@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import { CSSProperties, FC } from 'react'
 import { Player } from '@typings/player.enum'
 import './Grid.css'
-import { GridMatrix } from '@typings/grid.types'
+import { GridMatrix, MatrixColumn } from '@typings/grid.types'
 
 interface CellProps {
   player: Player | null
@@ -30,7 +30,7 @@ const Cell: FC<CellProps> = ({ player, cellSize }) => {
 }
 
 interface ColumnRowsProps {
-  rows: Array<Player>
+  rows: MatrixColumn
   onClick: () => void
   className?: string
   cellSize?: number
