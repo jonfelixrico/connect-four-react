@@ -1,75 +1,88 @@
-import { cloneDeep, findLastIndex, uniqueId } from 'lodash'
-import { FC, useCallback, useState } from 'react'
+import { uniqueId } from 'lodash'
+import { FC, useCallback, useMemo, useState } from 'react'
 import { Player } from '@typings/player.enum'
 import { GridMatrix } from '@typings/grid.types'
-import { generateGrid } from '@utils/grid.utils'
+import { dropDisc } from '@utils/grid.utils'
 import { InteractiveGrid } from '@components/grid/InteractiveGrid'
 import { History } from '@components/grid/History'
+import { generateGridSnapshots, PlayerMove } from '@utils/history.utils'
 
-interface HistoryEntry {
+interface AuditEntry extends PlayerMove {
   id: string
-  grid: GridMatrix
-  player: Player
 }
 
-const INIT_HISTORY: HistoryEntry[] = [
-  {
-    id: uniqueId(),
-    player: Player.PLAYER_1,
-    grid: generateGrid(),
-  },
-]
+interface Snapshot {
+  id: string
+  move?: PlayerMove
+  grid: GridMatrix
+  turn: Player
+}
+
+const INIT_MOVE_HISTORY: AuditEntry[] = []
 
 export const App: FC = () => {
-  const [history, setHistory] = useState(INIT_HISTORY)
-  const state = history[history.length - 1]
+  const [moves, setMoves] = useState(INIT_MOVE_HISTORY)
+
+  const snapshots = useMemo(() => {
+    const [initialState, ...others] = generateGridSnapshots(moves)
+    return [
+      {
+        grid: initialState,
+        turn: Player.PLAYER_1,
+        id: 'ROOT',
+      },
+      ...others.map((grid, index) => {
+        const move = moves[index]
+        return {
+          grid,
+          move,
+          id: move.id,
+          turn:
+            move.player === Player.PLAYER_1 ? Player.PLAYER_2 : Player.PLAYER_1,
+        }
+      }),
+    ] as Snapshot[]
+  }, [moves])
+
+  const lastSnapshot = snapshots[snapshots.length - 1]
 
   const onPlayerMove = useCallback(
     (colIdx: number): void => {
-      const { player, grid } = state
-      const highestPoint = findLastIndex(grid[colIdx], (item) => item !== null)
+      try {
+        const { grid, turn } = lastSnapshot
+        dropDisc(grid, turn, colIdx)
 
-      if (highestPoint === 5) {
-        console.warn(`No more slots in col ${colIdx}.`)
-        return
+        setMoves((state) => [
+          ...state,
+          {
+            id: uniqueId(),
+            player: turn,
+            colIdx,
+          },
+        ])
+      } catch (e) {
+        const err = e as Error
+        console.log(`Move did not proceed: ${err.message}`)
       }
-
-      const clone = cloneDeep(grid)
-      const column = clone[colIdx]
-
-      column[highestPoint + 1] = player
-      console.debug(
-        `Player ${player} has placed a token on (${colIdx}, ${
-          highestPoint + 1
-        }).`
-      )
-
-      const newState = {
-        id: uniqueId(),
-        player: player === Player.PLAYER_1 ? Player.PLAYER_2 : Player.PLAYER_1,
-        grid: clone,
-      }
-
-      setHistory((historyState) => [...historyState, newState])
     },
-    [setHistory, state]
+    [setMoves, lastSnapshot]
   )
 
   const onHistoryEntryClick = useCallback(
     (index: number) => {
-      setHistory((historyState) => historyState.slice(0, index + 1))
+      setMoves((state) => state.slice(0, index))
     },
-    [setHistory]
+    [setMoves]
   )
 
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden">
       <div className="flex flex-grow justify-center items-center">
-        <InteractiveGrid grid={state.grid} onClick={onPlayerMove} />
+        <InteractiveGrid grid={lastSnapshot.grid} onClick={onPlayerMove} />
       </div>
       <div className="flex flex-row overflow-auto">
         <History
-          grids={history.map((entry) => entry.grid)}
+          grids={snapshots.map(({ grid }) => grid)}
           onClick={onHistoryEntryClick}
         />
       </div>
