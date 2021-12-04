@@ -24,7 +24,7 @@ export const App: FC = () => {
   const [history, setHistory] = useState(INIT_HISTORY)
   const state = history[history.length - 1]
 
-  const onGridClick = useCallback(
+  const onPlayerMove = useCallback(
     (colIdx: number): void => {
       const { player, grid } = state
       const highestPoint = findLastIndex(grid[colIdx], (item) => item !== null)
@@ -55,13 +55,23 @@ export const App: FC = () => {
     [setHistory, state]
   )
 
+  const onHistoryEntryClick = useCallback(
+    (index: number) => {
+      setHistory((historyState) => historyState.slice(0, index + 1))
+    },
+    [setHistory]
+  )
+
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden">
       <div className="flex flex-grow justify-center items-center">
-        <InteractiveGrid grid={state.grid} onClick={onGridClick} />
+        <InteractiveGrid grid={state.grid} onClick={onPlayerMove} />
       </div>
       <div className="flex flex-row overflow-auto">
-        <History grids={history.map((entry) => entry.grid)} />
+        <History
+          grids={history.map((entry) => entry.grid)}
+          onClick={onHistoryEntryClick}
+        />
       </div>
     </div>
   )
