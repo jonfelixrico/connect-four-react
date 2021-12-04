@@ -1,5 +1,6 @@
 import { GridMatrix } from '@typings/grid.types'
 import { Player } from '@typings/player.enum'
+import { findLastIndex } from 'lodash'
 
 function find4Consecutive(arr: Array<Player>): Player | null {
   let player: Player | null = null
@@ -40,7 +41,7 @@ function findHighestPoint(grid: GridMatrix): number {
      * it will be null; so by taking the first null we encounter and subtracting 1, we find the
      * highest point.
      */
-    return column.findIndex((row) => row === null) - 1
+    return findLastIndex(column, (cell) => cell !== null)
   })
 
   return Math.max(...highestPointPerColumn)
@@ -52,7 +53,7 @@ function evaluateHorizontal(
 ): Player | null {
   for (let i = 0; i <= lastIndex; i += 1) {
     const row = grid.map((column) => column[i])
-    const winner = find4Consecutive(row)
+    const winner = find4Consecutive(row as Array<Player>)
 
     if (winner !== null) {
       return winner
@@ -66,7 +67,7 @@ function evaluateVertical(grid: GridMatrix, lastIndex: number): Player | null {
   for (const column of grid) {
     const trimmed = column.slice(0, lastIndex + 1) // had to +1 because end is exclusive
 
-    const winnerOfColumn = find4Consecutive(trimmed)
+    const winnerOfColumn = find4Consecutive(trimmed as Array<Player>)
     if (winnerOfColumn) {
       return winnerOfColumn
     }
@@ -107,7 +108,7 @@ function diagonalHelper(
       grid[xIdx + directionDelta * 3][yIdx - 3], // ... and so on
     ]
 
-    const winner = find4Consecutive(diagonalLine)
+    const winner = find4Consecutive(diagonalLine as Array<Player>)
     if (winner) {
       return winner
     }
