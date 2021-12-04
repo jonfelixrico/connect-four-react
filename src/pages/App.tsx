@@ -7,6 +7,8 @@ import { InteractiveGrid } from '@components/grid/InteractiveGrid'
 import { History } from '@components/grid/History'
 import { generateGridSnapshots, PlayerMove } from '@utils/history.utils'
 import { useTranslation } from 'react-i18next'
+import { evaluateGrid } from '@utils/grid-evaluator.util'
+import classNames from 'classnames'
 
 interface AuditEntry extends PlayerMove {
   id: string
@@ -48,13 +50,28 @@ export const App: FC = () => {
   }, [moves])
 
   const lastSnapshot = snapshots[snapshots.length - 1]
-  const turnText =
-    lastSnapshot.turn === Player.PLAYER_1
-      ? t('turn.player1')
-      : t('turn.player2')
+
+  const winner = useMemo(
+    () => evaluateGrid(snapshots[snapshots.length - 1].grid),
+    [snapshots]
+  )
+
+  let text
+  if (winner) {
+    text =
+      lastSnapshot.turn === Player.PLAYER_1
+        ? t('win.player1')
+        : t('win.player2')
+  } else {
+    text = winner === Player.PLAYER_1 ? t('turn.player1') : t('turn.player2')
+  }
 
   const onPlayerMove = useCallback(
     (colIdx: number): void => {
+      if (winner) {
+        return
+      }
+
       try {
         const { grid, turn } = lastSnapshot
         dropDisc(grid, turn, colIdx)
@@ -72,20 +89,24 @@ export const App: FC = () => {
         console.log(`Move did not proceed: ${err.message}`)
       }
     },
-    [setMoves, lastSnapshot]
+    [setMoves, lastSnapshot, winner]
   )
 
   const onHistoryEntryClick = useCallback(
     (index: number) => {
+      if (winner) {
+        return
+      }
+
       setMoves((state) => state.slice(0, index))
     },
-    [setMoves]
+    [setMoves, winner]
   )
 
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden">
       <div className="flex flex-col flex-grow justify-center items-center">
-        <div>{turnText}</div>
+        <div>{text}</div>
         <InteractiveGrid grid={lastSnapshot.grid} onClick={onPlayerMove} />
       </div>
       <div className="flex flex-row overflow-auto">
