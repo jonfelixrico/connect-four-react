@@ -1,6 +1,7 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
+import { en } from './en'
 
 /*
  * This i18n setup is from
@@ -22,11 +23,7 @@ i18n
       escapeValue: false, // not needed for react as it escapes by default
     },
     resources: {
-      en: {
-        translation: {
-          // here we will place our translations...
-        },
-      },
+      en,
     },
   })
 
