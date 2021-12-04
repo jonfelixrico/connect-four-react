@@ -7,6 +7,12 @@ export const generateGrid = (): GridMatrix =>
     .fill(null)
     .map(() => new Array(6).fill(null) as MatrixColumn) as GridMatrix
 
+export class ColumnFullError extends Error {
+  constructor(colIdx: number) {
+    super(`No more slots on column ${colIdx}.`)
+  }
+}
+
 export function dropDisc(
   grid: GridMatrix,
   player: Player,
@@ -16,7 +22,7 @@ export function dropDisc(
   const highestPoint = findLastIndex(column, (item) => item !== null)
 
   if (highestPoint === column.length - 1) {
-    throw new Error(`No more slots on colum ${colIdx}`)
+    throw new ColumnFullError(colIdx)
   }
 
   const gridClone = cloneDeep(grid)
