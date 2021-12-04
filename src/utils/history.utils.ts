@@ -7,13 +7,13 @@ export interface PlayerMove {
   player: Player
 }
 
-export function generateHistory(
-  history: PlayerMove[],
+export function generateGridSnapshots(
+  moves: PlayerMove[],
   startState?: GridMatrix
 ): GridMatrix[] {
   const timeline: GridMatrix[] = [startState ?? generateGrid()]
 
-  for (const { player, colIdx } of history) {
+  for (const { player, colIdx } of moves) {
     const lastState = timeline[timeline.length - 1]
     timeline.push(dropDisc(lastState, player, colIdx))
   }
