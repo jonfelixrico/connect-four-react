@@ -1,10 +1,10 @@
 import { cloneDeep, uniqueId } from 'lodash'
 import { FC, useCallback, useEffect, useState } from 'react'
-import { Grid } from '@components/grid/Grid'
 import { Player } from '@typings/player.enum'
 import { GridMatrix } from '@typings/grid.types'
 import { generateGrid } from '@utils/grid.utils'
 import { InteractiveGrid } from '@components/grid/InteractiveGrid'
+import { History } from '@components/grid/History'
 
 interface GameState {
   grid: GridMatrix
@@ -70,9 +70,7 @@ export const App: FC = () => {
         <InteractiveGrid grid={gameState.grid} onClick={onClick} />
       </div>
       <div className="flex flex-row overflow-auto">
-        {history.map((historyEntry) => (
-          <Grid grid={historyEntry.grid} key={historyEntry.id} />
-        ))}
+        <History grids={history.map((entry) => entry.grid)} />
       </div>
     </div>
   )
