@@ -6,6 +6,7 @@ import { dropDisc } from '@utils/grid.utils'
 import { InteractiveGrid } from '@components/grid/InteractiveGrid'
 import { History } from '@components/grid/History'
 import { generateGridSnapshots, PlayerMove } from '@utils/history.utils'
+import { useTranslation } from 'react-i18next'
 
 interface AuditEntry extends PlayerMove {
   id: string
@@ -22,6 +23,8 @@ const INIT_MOVE_HISTORY: AuditEntry[] = []
 
 export const App: FC = () => {
   const [moves, setMoves] = useState(INIT_MOVE_HISTORY)
+
+  const { t } = useTranslation()
 
   const snapshots = useMemo(() => {
     const [initialState, ...others] = generateGridSnapshots(moves)
@@ -45,6 +48,10 @@ export const App: FC = () => {
   }, [moves])
 
   const lastSnapshot = snapshots[snapshots.length - 1]
+  const turnText =
+    lastSnapshot.turn === Player.PLAYER_1
+      ? t('turn.player1')
+      : t('turn.player2')
 
   const onPlayerMove = useCallback(
     (colIdx: number): void => {
@@ -77,7 +84,8 @@ export const App: FC = () => {
 
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden">
-      <div className="flex flex-grow justify-center items-center">
+      <div className="flex flex-col flex-grow justify-center items-center">
+        <div>{turnText}</div>
         <InteractiveGrid grid={lastSnapshot.grid} onClick={onPlayerMove} />
       </div>
       <div className="flex flex-row overflow-auto">
