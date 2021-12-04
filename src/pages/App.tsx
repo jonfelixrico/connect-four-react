@@ -1,76 +1,77 @@
-import { cloneDeep, uniqueId } from 'lodash'
-import { FC, useCallback, useEffect, useState } from 'react'
+import { cloneDeep, findLastIndex, uniqueId } from 'lodash'
+import { FC, useCallback, useState } from 'react'
 import { Player } from '@typings/player.enum'
 import { GridMatrix } from '@typings/grid.types'
 import { generateGrid } from '@utils/grid.utils'
 import { InteractiveGrid } from '@components/grid/InteractiveGrid'
 import { History } from '@components/grid/History'
 
-interface GameState {
+interface HistoryEntry {
+  id: string
   grid: GridMatrix
   player: Player
 }
 
-const INIT_GAME_STATE: GameState = {
-  player: Player.PLAYER_1,
-  grid: generateGrid(),
-}
-
-interface HistoryEntry extends GameState {
-  id: string
-}
-const INIT_HISTORY: HistoryEntry[] = []
+const INIT_HISTORY: HistoryEntry[] = [
+  {
+    id: uniqueId(),
+    player: Player.PLAYER_1,
+    grid: generateGrid(),
+  },
+]
 
 export const App: FC = () => {
-  const [gameState, setGameState] = useState(INIT_GAME_STATE)
   const [history, setHistory] = useState(INIT_HISTORY)
+  const state = history[history.length - 1]
 
-  const onClick = useCallback(
+  const onPlayerMove = useCallback(
     (colIdx: number): void => {
-      setGameState((state) => {
-        const { player, grid } = state
-        const clone = cloneDeep(grid)
-        const column = clone[colIdx]
+      const { player, grid } = state
+      const highestPoint = findLastIndex(grid[colIdx], (item) => item !== null)
 
-        const firstNullIdx = column.findIndex((rowCell) => rowCell === null)
+      if (highestPoint === 5) {
+        console.warn(`No more slots in col ${colIdx}.`)
+        return
+      }
 
-        if (firstNullIdx === -1) {
-          console.warn(`No more slots in col ${colIdx}.`)
-          return state
-        }
+      const clone = cloneDeep(grid)
+      const column = clone[colIdx]
 
-        column[firstNullIdx] = player
+      column[highestPoint + 1] = player
+      console.debug(
+        `Player ${player} has placed a token on (${colIdx}, ${
+          highestPoint + 1
+        }).`
+      )
 
-        console.debug(
-          `Player ${player} has placed a token on (${colIdx}, ${firstNullIdx}).`
-        )
-        return {
-          player:
-            player === Player.PLAYER_1 ? Player.PLAYER_2 : Player.PLAYER_1,
-          grid: clone,
-        }
-      })
+      const newState = {
+        id: uniqueId(),
+        player: player === Player.PLAYER_1 ? Player.PLAYER_2 : Player.PLAYER_1,
+        grid: clone,
+      }
+
+      setHistory((historyState) => [...historyState, newState])
     },
-    [setGameState]
+    [setHistory, state]
   )
 
-  useEffect(() => {
-    setHistory((historyState) => [
-      ...historyState,
-      {
-        ...gameState,
-        id: uniqueId(),
-      } as HistoryEntry,
-    ])
-  }, [gameState])
+  const onHistoryEntryClick = useCallback(
+    (index: number) => {
+      setHistory((historyState) => historyState.slice(0, index + 1))
+    },
+    [setHistory]
+  )
 
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden">
       <div className="flex flex-grow justify-center items-center">
-        <InteractiveGrid grid={gameState.grid} onClick={onClick} />
+        <InteractiveGrid grid={state.grid} onClick={onPlayerMove} />
       </div>
       <div className="flex flex-row overflow-auto">
-        <History grids={history.map((entry) => entry.grid)} />
+        <History
+          grids={history.map((entry) => entry.grid)}
+          onClick={onHistoryEntryClick}
+        />
       </div>
     </div>
   )
