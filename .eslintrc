@@ -1,0 +1,88 @@
+{
+  // eslint setup reference: https://andrebnassis.medium.com/setting-eslint-on-a-react-typescript-project-2021-1190a43ffba
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/prettier",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint", "react-hooks"],
+  "rules": {
+    // must be disabled because they can report incorrect errors
+    // see reference: https://stackoverflow.com/questions/63818415/react-was-used-before-it-was-defined/64024916#64024916
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+
+    // allows us to import files as './Filename', no need to add .tsx or .jsx
+    "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+
+    // prevents errors like:  ‘Enum’ is already declared in the upper scope
+    // see reference: https://stackoverflow.com/questions/63961803/eslint-says-all-enums-in-typescript-app-are-already-declared-in-the-upper-scope
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+
+    // no longer necessary as of react 17.x
+    "react/react-in-jsx-scope": "off",
+
+    "no-console": "off",
+
+    // just use object default values
+    "react/require-default-props": [0],
+
+    // --- rules for enforcing good code ---
+
+    // forces us to always define fn return type
+    "@typescript-eslint/explicit-function-return-type": [
+      "error",
+      {
+        "allowExpressions": true
+      }
+    ],
+
+    // keep lines short
+    "max-len": ["warn", { "code": 100 }],
+
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+
+    // i personally prefer named exports
+    "import/prefer-default-export": "off",
+
+    "react/function-component-definition": [
+      "warn",
+      {
+        "namedComponents": "arrow-function"
+      }
+    ],
+
+    // readability > performance for this small project
+    "no-restricted-syntax": [0]
+  },
+  "settings": {
+    // prevents errors like: Unable to resolve path to module ‘./App’
+    "import/resolver": {
+      "typescript": {}
+    }
+  }
+}
