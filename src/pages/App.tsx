@@ -57,12 +57,12 @@ export const App: FC = () => {
 
   let text
   if (winner) {
+    text = winner === Player.PLAYER_1 ? t('win.player1') : t('win.player2')
+  } else {
     text =
       lastSnapshot.turn === Player.PLAYER_1
-        ? t('win.player1')
-        : t('win.player2')
-  } else {
-    text = winner === Player.PLAYER_1 ? t('turn.player1') : t('turn.player2')
+        ? t('turn.player1')
+        : t('turn.player2')
   }
 
   const onPlayerMove = useCallback(
