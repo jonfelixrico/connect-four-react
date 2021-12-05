@@ -1,6 +1,6 @@
 import { Player } from '@typings/player.enum'
 
-type MatrixCellItem = Player | null
+export type MatrixCellItem = Player | null
 
 /**
  * A column contains 6 rows/items.
