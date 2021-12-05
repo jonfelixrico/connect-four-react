@@ -169,6 +169,11 @@ function evaluateTopToLeft(
   return null
 }
 
+/**
+ * Evaluates the grid to check for winners.
+ * @param grid
+ * @returns If `null`, then there are no winners. Else, a `Player` type will be returned.
+ */
 export function evaluateGrid(grid: GridMatrix): Player | null {
   const highestPoint = findHighestPoint(grid)
 
