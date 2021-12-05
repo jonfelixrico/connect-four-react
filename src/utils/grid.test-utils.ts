@@ -41,10 +41,17 @@ export function toGridMatrix(toTrans: EasyGrid): GridMatrix {
   ) as EasyGridToken[][]
 
   const transformed = generateGrid()
-  for (let column = 0; column < 7; column += 1) {
-    for (let row = 0; row < 6; row += 1) {
-      const token = splitRows[row][column]
-      transformed[column][row] = TOKEN_TO_CELLITEM[token]
+  for (let row = 0; row < 6; row += 1) {
+    for (let item = 0; item < 7; item += 1) {
+      const toCellItem = TOKEN_TO_CELLITEM[splitRows[row][item]]
+      /*
+       * We have to subtract by 5 becuase the last row in `splitRows` represent
+       * the bottom-most row in the grid.
+       *
+       * For GridMatrix, the bottom-most row is in the 0 index of each column,
+       * so they're quite inverse.
+       */
+      transformed[item][5 - row] = toCellItem
     }
   }
 
