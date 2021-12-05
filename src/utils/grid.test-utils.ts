@@ -2,14 +2,15 @@ import { GridMatrix, MatrixCellItem } from '@typings/grid.types'
 import { Player } from '@typings/player.enum'
 import { generateGrid } from './grid.utils'
 
-type GridToken = 'X' | 'O' | '-'
+type EasyGridToken = 'X' | 'O' | '-'
 
 /**
  * This represents an entire row on the grid.
  * Each character in this string represents a column/cell.
  */
-type TransformedGridRow =
-  `${GridToken}${GridToken}${GridToken}${GridToken}${GridToken}${GridToken}${GridToken}`
+type EasyGridRow =
+  // eslint-disable-next-line max-len
+  `${EasyGridToken}${EasyGridToken}${EasyGridToken}${EasyGridToken}${EasyGridToken}${EasyGridToken}${EasyGridToken}`
 
 /**
  * This is pretty much `GridMatrix` but transformed in two ways:
@@ -19,23 +20,25 @@ type TransformedGridRow =
  * This was created because we wanted a more human-readable way of creating matrices for
  * tests.
  */
-type TransformedGrid = [
-  TransformedGridRow,
-  TransformedGridRow,
-  TransformedGridRow,
-  TransformedGridRow,
-  TransformedGridRow,
-  TransformedGridRow
+export type EasyGrid = [
+  EasyGridRow,
+  EasyGridRow,
+  EasyGridRow,
+  EasyGridRow,
+  EasyGridRow,
+  EasyGridRow
 ]
 
-const TOKEN_TO_CELLITEM: Record<GridToken, MatrixCellItem> = {
+const TOKEN_TO_CELLITEM: Record<EasyGridToken, MatrixCellItem> = {
   '-': null,
   O: Player.PLAYER_2,
   X: Player.PLAYER_1,
 }
 
-export function toGridMatrix(toTrans: TransformedGrid): GridMatrix {
-  const splitRows = toTrans.map((strRow) => strRow.split('')) as GridToken[][]
+export function toGridMatrix(toTrans: EasyGrid): GridMatrix {
+  const splitRows = toTrans.map((strRow) =>
+    strRow.split('')
+  ) as EasyGridToken[][]
 
   const transformed = generateGrid()
   for (let column = 0; column < 7; column += 1) {
