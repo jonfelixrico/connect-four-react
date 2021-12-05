@@ -18,7 +18,8 @@ export class ColumnFullError extends Error {
 }
 
 /**
- * Given a `colIdx`, a disc is "dropped" onto that colum of the grid.
+ * Given a `colIdx`, a disc is "dropped" onto that colum of the grid. It will occupy the
+ * item in the column which has a value of `null` closest to the "bottom" of the column (index 0).
  *
  * @param grid The grid to perform the operation on. This is treated as immutable.
  * @param player The player who drpped the disc.
