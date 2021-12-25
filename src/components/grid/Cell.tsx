@@ -30,7 +30,7 @@ const CellBase: FC<CellBaseProps> = ({ frameColor, frameSize, discSize }) => {
         width={frameSize}
         height={frameSize}
         mask="url(#hole)"
-        color={frameColor}
+        fill={frameColor}
       />
     </svg>
   )
