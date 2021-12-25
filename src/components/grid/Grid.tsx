@@ -67,9 +67,9 @@ export interface GridProps {
    * Inner array: rows
    */
   grid: GridMatrix
-  itemSize?: number
+  frameSize?: number
   colorMapping?: ColorMapping
-  itemColor?: string
+  frameColor?: string
   backgroundColor?: string
 }
 
@@ -79,17 +79,17 @@ export interface GridProps {
  */
 export const Grid: FC<GridProps> = ({
   grid: columns,
-  itemSize = 100,
+  frameSize = 100,
   colorMapping = DEFAULT_MAPPING,
-  itemColor = 'rgb(13, 59, 102)',
+  frameColor = 'rgb(13, 59, 102)',
   backgroundColor = '#e8e9f3',
 }) => {
   const columnItemContextData = useMemo<GridContextData>(
     () => ({
-      frameColor: itemColor || 'black',
-      frameSize: itemSize,
+      frameColor: frameColor || 'black',
+      frameSize,
     }),
-    [itemColor, itemSize]
+    [frameColor, frameSize]
   )
 
   return (
