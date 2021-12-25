@@ -1,56 +1,29 @@
 import { FC } from 'react'
+import { Cell } from './Cell'
 
 interface ColumnItemContainerProps {
-  itemSize: string
-  discSize: string
+  itemSize: number
 }
 
 interface ColumnItemProps extends ColumnItemContainerProps {
   background: string
 }
 
-const ColumnItem: FC<ColumnItemProps> = ({
-  itemSize,
-  discSize,
-  background,
-}) => {
-  return (
-    <div
-      style={{
-        width: itemSize,
-        height: itemSize,
-      }}
-      className="flex justify-center items-center"
-    >
-      <div
-        className="rounded-full"
-        style={{
-          width: discSize,
-          height: discSize,
-          background,
-        }}
-      />
-    </div>
-  )
+const ColumnItem: FC<ColumnItemProps> = ({ itemSize, background }) => {
+  return <Cell discColor={background} frameColor="blue" frameSize={itemSize} />
 }
 
 interface GridColumnProps extends Omit<ColumnItemContainerProps, 'discSize'> {
   items: Array<string>
-  discSize?: string
 }
 
-export const GridColumn: FC<GridColumnProps> = ({
-  items,
-  itemSize,
-  discSize = '90%',
-}) => {
+export const GridColumn: FC<GridColumnProps> = ({ items, itemSize }) => {
   return (
     <div className="flex flex-col-reverse self-center">
       {items.map((color, index) => (
         <ColumnItem
           background={color}
           itemSize={itemSize}
-          discSize={discSize}
           // eslint-disable-next-line react/no-array-index-key
           key={index}
         />

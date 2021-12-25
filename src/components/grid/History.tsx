@@ -9,7 +9,7 @@ export const HistoryEntry: FC<{ grid: GridMatrix }> = ({ grid }) => {
   return (
     <div style={{ background: '#0d3b66' }} className="p-0.5 relative">
       <div className="h-full w-full absolute bg-black opacity-0 hover:opacity-10" />
-      <Grid grid={grid} itemSize="20px" />
+      <Grid grid={grid} itemSize={20} />
     </div>
   )
 }

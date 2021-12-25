@@ -24,7 +24,7 @@ export interface GridProps {
    * Inner array: rows
    */
   grid: GridMatrix
-  itemSize?: string
+  itemSize?: number
   colorMapping?: ColorMapping
 }
 
@@ -34,7 +34,7 @@ export interface GridProps {
  */
 export const Grid: FC<GridProps> = ({
   grid: columns,
-  itemSize = '100px',
+  itemSize = 100,
   colorMapping = DEFAULT_MAPPING,
 }) => {
   return (
