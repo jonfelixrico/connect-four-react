@@ -36,12 +36,12 @@ const CellBase: FC<CellBaseProps> = ({ frameColor, frameSize, discSize }) => {
   )
 }
 
-export interface CellProps extends CellBaseProps {
+export interface CellProps extends Omit<CellBaseProps, 'discSize'> {
   discColor: string
 }
 
 export const Cell: FC<CellProps> = (props) => {
-  const { discColor, frameSize, discSize, frameColor } = props
+  const { discColor, frameSize, frameColor } = props
 
   return (
     <div
@@ -51,7 +51,7 @@ export const Cell: FC<CellProps> = (props) => {
     >
       <CellBase
         frameSize={frameSize}
-        discSize={discSize}
+        discSize={frameSize * 0.95}
         frameColor={frameColor}
       />
     </div>
