@@ -7,12 +7,6 @@ type ColorMapping = Record<Player, string> & {
   NONE: string
 }
 
-const DEFAULT_MAPPING = {
-  NONE: 'transparent',
-  [Player.PLAYER_1]: '#ef8080',
-  [Player.PLAYER_2]: '#febe48',
-}
-
 const mapColors = (
   column: Array<Player | null>,
   mapping: ColorMapping
@@ -23,9 +17,18 @@ interface GridContextData {
   frameSize: number
 }
 
+const DEFAULT_MAPPING = {
+  NONE: 'transparent',
+  [Player.PLAYER_1]: '#ef8080',
+  [Player.PLAYER_2]: '#febe48',
+}
+const DEFAULT_BG_COLOR = 'white'
+const DEFAULT_FRAME_COLOR = 'black'
+const DEFAULT_FRAME_SIZE = 100
+
 const GridContext = createContext<GridContextData>({
-  frameColor: 'black',
-  frameSize: 100,
+  frameColor: DEFAULT_FRAME_COLOR,
+  frameSize: DEFAULT_FRAME_SIZE,
 })
 
 interface ColumnItemProps {
@@ -79,14 +82,14 @@ export interface GridProps {
  */
 export const Grid: FC<GridProps> = ({
   grid: columns,
-  frameSize = 100,
+  frameSize = DEFAULT_FRAME_SIZE,
   colorMapping = DEFAULT_MAPPING,
-  frameColor = 'rgb(13, 59, 102)',
-  backgroundColor = '#e8e9f3',
+  frameColor = DEFAULT_FRAME_COLOR,
+  backgroundColor = DEFAULT_BG_COLOR,
 }) => {
   const columnItemContextData = useMemo<GridContextData>(
     () => ({
-      frameColor: frameColor || 'black',
+      frameColor,
       frameSize,
     }),
     [frameColor, frameSize]
