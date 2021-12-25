@@ -1,7 +1,8 @@
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 import { Player } from '@typings/player.enum'
 import { GridMatrix } from '@typings/grid.types'
 import { GridColumn } from './GridColumn'
+import { ColumnItemContext, ColumnItemContextData } from './ColumnItemContext'
 
 type ColorMapping = Record<Player, string> & {
   NONE: string
@@ -26,6 +27,8 @@ export interface GridProps {
   grid: GridMatrix
   itemSize?: number
   colorMapping?: ColorMapping
+  itemColor?: string
+  backgroundColor?: string
 }
 
 /**
@@ -36,17 +39,28 @@ export const Grid: FC<GridProps> = ({
   grid: columns,
   itemSize = 100,
   colorMapping = DEFAULT_MAPPING,
+  itemColor = 'rgb(13, 59, 102)',
+  backgroundColor = '#e8e9f3',
 }) => {
+  const columnItemContextData = useMemo<ColumnItemContextData>(
+    () => ({
+      frameColor: itemColor || 'black',
+      frameSize: itemSize,
+    }),
+    [itemColor, itemSize]
+  )
+
   return (
-    <div className="flex flex-row justify-center">
-      {columns.map((items, index) => (
-        <GridColumn
-          itemSize={itemSize}
-          items={mapColors(items, colorMapping)}
-          // eslint-disable-next-line react/no-array-index-key
-          key={index}
-        />
-      ))}
-    </div>
+    <ColumnItemContext.Provider value={columnItemContextData}>
+      <div className="flex flex-row justify-center" style={{ backgroundColor }}>
+        {columns.map((items, index) => (
+          <GridColumn
+            items={mapColors(items, colorMapping)}
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
+          />
+        ))}
+      </div>
+    </ColumnItemContext.Provider>
   )
 }
