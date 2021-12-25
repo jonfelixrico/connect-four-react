@@ -1,4 +1,5 @@
-import { FC } from 'react'
+import { uniqueId } from 'lodash'
+import { FC, useEffect, useState } from 'react'
 
 interface CellBaseProps {
   frameColor: string
@@ -11,10 +12,13 @@ interface CellBaseProps {
  * This component will create a "cell" with a transparent center.
  */
 const CellBase: FC<CellBaseProps> = ({ frameColor, frameSize, discSize }) => {
+  const [id, setId] = useState<string>('')
+  useEffect(() => setId(uniqueId()), [])
+
   return (
     <svg width={frameSize} height={frameSize}>
       <defs>
-        <mask id="hole">
+        <mask id={id}>
           <rect width={frameSize} height={frameSize} fill="white" />
           <circle
             r={discSize / 2}
@@ -29,7 +33,7 @@ const CellBase: FC<CellBaseProps> = ({ frameColor, frameSize, discSize }) => {
       <rect
         width={frameSize}
         height={frameSize}
-        mask="url(#hole)"
+        mask={`url(#${id})`}
         fill={frameColor}
       />
     </svg>
