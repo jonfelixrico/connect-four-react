@@ -8,7 +8,7 @@ type ColorMapping = Record<Player, string> & {
 }
 
 const DEFAULT_MAPPING = {
-  NONE: '#e8e9f3',
+  NONE: 'transparent',
   [Player.PLAYER_1]: '#ef8080',
   [Player.PLAYER_2]: '#febe48',
 }

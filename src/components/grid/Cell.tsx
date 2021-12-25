@@ -37,7 +37,7 @@ const CellBase: FC<CellBaseProps> = ({ frameColor, frameSize, discSize }) => {
 }
 
 export interface CellProps extends Omit<CellBaseProps, 'discSize'> {
-  discColor: string
+  discColor?: string
 }
 
 export const Cell: FC<CellProps> = (props) => {
@@ -47,7 +47,7 @@ export const Cell: FC<CellProps> = (props) => {
     <div
       className="relative"
       // this background will make our "frame" (CellBase) appear to have the circle filled up
-      style={{ background: discColor }}
+      style={{ background: discColor ?? 'transparent' }}
     >
       <CellBase
         frameSize={frameSize}
