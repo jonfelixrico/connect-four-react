@@ -18,12 +18,12 @@ const mapColors = (
   mapping: ColorMapping
 ): Array<string> => column.map((item) => mapping[item ?? 'NONE'])
 
-interface ColumnItemContextData {
+interface GridContextData {
   frameColor: string
   frameSize: number
 }
 
-const ColumnItemContext = createContext<ColumnItemContextData>({
+const GridContext = createContext<GridContextData>({
   frameColor: 'black',
   frameSize: 100,
 })
@@ -33,7 +33,7 @@ interface ColumnItemProps {
 }
 
 const ColumnItem: FC<ColumnItemProps> = ({ background }) => {
-  const { frameColor, frameSize } = useContext(ColumnItemContext)
+  const { frameColor, frameSize } = useContext(GridContext)
   return (
     <Cell
       discColor={background}
@@ -84,7 +84,7 @@ export const Grid: FC<GridProps> = ({
   itemColor = 'rgb(13, 59, 102)',
   backgroundColor = '#e8e9f3',
 }) => {
-  const columnItemContextData = useMemo<ColumnItemContextData>(
+  const columnItemContextData = useMemo<GridContextData>(
     () => ({
       frameColor: itemColor || 'black',
       frameSize: itemSize,
@@ -93,7 +93,7 @@ export const Grid: FC<GridProps> = ({
   )
 
   return (
-    <ColumnItemContext.Provider value={columnItemContextData}>
+    <GridContext.Provider value={columnItemContextData}>
       <div className="flex flex-row justify-center" style={{ backgroundColor }}>
         {columns.map((items, index) => (
           <GridColumn
@@ -103,6 +103,6 @@ export const Grid: FC<GridProps> = ({
           />
         ))}
       </div>
-    </ColumnItemContext.Provider>
+    </GridContext.Provider>
   )
 }
